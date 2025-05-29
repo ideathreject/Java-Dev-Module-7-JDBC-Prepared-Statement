@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ public class DatabaseQueryService {
         try {
             String sql = Files.readString(Path.of("sql/find_max_salary_worker.sql"));
             try (
-                    Statement stmt = conn.createStatement();
-                    ResultSet resultSet = stmt.executeQuery(sql)) {
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    ResultSet resultSet = pstmt.executeQuery()) {
 
                 while (resultSet.next()) {
                     WorkerWithMaxSalary worker = new WorkerWithMaxSalary();
@@ -37,7 +37,6 @@ public class DatabaseQueryService {
         } catch (SQLException | IOException e) {
             System.err.println(ERROR_MASSAGE + e.getMessage());
         }
-
         return result;
     }
 
@@ -49,8 +48,8 @@ public class DatabaseQueryService {
             String sql = Files.readString(Path.of("sql/find_longest_project.sql"));
 
             try (
-                    Statement stmt = conn.createStatement();
-                    ResultSet resultSet = stmt.executeQuery(sql)
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    ResultSet resultSet = pstmt.executeQuery()
             ) {
                 while (resultSet.next()) {
                     LongestProjects longestProjects = new LongestProjects();
@@ -65,7 +64,6 @@ public class DatabaseQueryService {
         } catch (SQLException | IOException e) {
             System.err.println(ERROR_MASSAGE + e.getMessage());
         }
-
         return result;
     }
 
@@ -77,8 +75,8 @@ public class DatabaseQueryService {
             String sql = Files.readString(Path.of("sql/find_max_projects_client.sql"));
 
             try (
-                    Statement stmt = conn.createStatement();
-                    ResultSet resultSet = stmt.executeQuery(sql)
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    ResultSet resultSet = pstmt.executeQuery()
             ) {
                 while (resultSet.next()) {
                     MaxProjectCountClient maxProjectCountClient = new MaxProjectCountClient();
@@ -91,7 +89,6 @@ public class DatabaseQueryService {
         } catch (SQLException | IOException e) {
             System.err.println(ERROR_MASSAGE + e.getMessage());
         }
-
         return result;
     }
 
@@ -103,8 +100,8 @@ public class DatabaseQueryService {
             String sql = Files.readString(Path.of("sql/find_youngest_eldest_workers.sql"));
 
             try (
-                    Statement stmt = conn.createStatement();
-                    ResultSet resultSet = stmt.executeQuery(sql)
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    ResultSet resultSet = pstmt.executeQuery()
             ) {
                 while (resultSet.next()) {
                     YoungestEldestWorker youngestEldestWorker = new YoungestEldestWorker();
@@ -117,7 +114,6 @@ public class DatabaseQueryService {
         } catch (SQLException | IOException e) {
             System.err.println(ERROR_MASSAGE + e.getMessage());
         }
-
         return result;
     }
 
@@ -129,8 +125,8 @@ public class DatabaseQueryService {
             String sql = Files.readString(Path.of("sql/print_project_prices.sql"));
 
             try (
-                    Statement stmt = conn.createStatement();
-                    ResultSet resultSet = stmt.executeQuery(sql);
+                    PreparedStatement pstmt = conn.prepareStatement(sql);
+                    ResultSet resultSet = pstmt.executeQuery();
             ) {
                 while (resultSet.next()) {
                     ProjectPrice projectPrice = new ProjectPrice();
@@ -147,7 +143,6 @@ public class DatabaseQueryService {
         } catch (SQLException | IOException e) {
             System.err.println(ERROR_MASSAGE + e.getMessage());
         }
-
         return result;
     }
 }
